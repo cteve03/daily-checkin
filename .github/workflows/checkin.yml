@@ -1,0 +1,20 @@
+name: daily-checkin
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  checkin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: checkin
+        env:
+          CHECKIN_USER: ${{ secrets.CHECKIN_USER }}
+          CHECKIN_PASS: ${{ secrets.CHECKIN_PASS }}
+        run: python3 checkin.py
